@@ -1,4 +1,4 @@
-E:\Users\szeke\Documents\GitHub\Onlab\Szertar\Szertar\bin
-E:\Users\szeke\Documents\GitHub\Onlab\Szertar\Szertar\obj
-E:\Users\szeke\Documents\GitHub\Onlab\Szertar\Szertar.Dal\bin
-E:\Users\szeke\Documents\GitHub\Onlab\Szertar\Szertar.Dal\obj
+dir_to_ignore/Szertar\Szertar\bin
+dir_to_ignore/Szertar\Szertar\obj
+dir_to_ignore/Szertar\Szertar.Dal\bin
+dir_to_ignore/Szertar\Szertar.Dal\obj
