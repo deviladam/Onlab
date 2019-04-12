@@ -4,30 +4,37 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Szertar.Dal.Managers;
 using Szertar.Models;
 
 namespace Szertar.Controllers
 {
 	public class HomeController : Controller
 	{
+		private IItemManager _itemManager;
+
+		public HomeController(IItemManager itemManager)
+		{
+			_itemManager = itemManager;
+		}
+		
 		public IActionResult Index()
 		{
-			return View();
+			// TODO: DI segítségével hogyan tudod elérni.
+			
+			var items = _itemManager.GetAllItems();
+
+			return View( items );
 		}
 
-		public IActionResult About()
+		[HttpPost]
+		public IActionResult AddToCart( int itemId, int count )
 		{
-			ViewData["Message"] = "Your application description page.";
-
-			return View();
+			// Kliens oldal ajax-szal hívni. Pl Unobtrustiv ajax plugin behúzása
+			// TODO: implement. Figyelni, ha ez az Id már van a kosárban, akkor csak növelni.
+			throw new NotImplementedException();
 		}
 
-		public IActionResult Contact()
-		{
-			ViewData["Message"] = "Your contact page.";
-
-			return View();
-		}
 
 		public IActionResult Privacy()
 		{
