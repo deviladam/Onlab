@@ -1,4 +1,4 @@
-Szertar\Szertar\bin
-Szertar\Szertar\obj
-Szertar\Szertar.Dal\bin
-Szertar\Szertar.Dal\obj
+E:\Users\szeke\Documents\GitHub\Onlab\Szertar\Szertar\bin
+E:\Users\szeke\Documents\GitHub\Onlab\Szertar\Szertar\obj
+E:\Users\szeke\Documents\GitHub\Onlab\Szertar\Szertar.Dal\bin
+E:\Users\szeke\Documents\GitHub\Onlab\Szertar\Szertar.Dal\obj
