@@ -12975,11 +12975,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\Users\\szeke\\Documents\\GitHub\\Onlab\\Szertar\\Szertar\\Szertar.csproj",
+      "projectUniqueName": "E:\\Users\\szeke\\Dokumentumok\\Önlab\\Szertar\\Szertar\\Szertar.csproj",
       "projectName": "Szertar",
-      "projectPath": "E:\\Users\\szeke\\Documents\\GitHub\\Onlab\\Szertar\\Szertar\\Szertar.csproj",
+      "projectPath": "E:\\Users\\szeke\\Dokumentumok\\Önlab\\Szertar\\Szertar\\Szertar.csproj",
       "packagesPath": "C:\\Users\\szeke\\.nuget\\packages\\",
-      "outputPath": "E:\\Users\\szeke\\Documents\\GitHub\\Onlab\\Szertar\\Szertar\\obj\\",
+      "outputPath": "E:\\Users\\szeke\\Dokumentumok\\Önlab\\Szertar\\Szertar\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -12998,8 +12998,8 @@
       "frameworks": {
         "netcoreapp2.2": {
           "projectReferences": {
-            "E:\\Users\\szeke\\Documents\\GitHub\\Onlab\\Szertar\\Szertar.Dal\\Szertar.Dal.csproj": {
-              "projectPath": "E:\\Users\\szeke\\Documents\\GitHub\\Onlab\\Szertar\\Szertar.Dal\\Szertar.Dal.csproj"
+            "E:\\Users\\szeke\\Dokumentumok\\Önlab\\Szertar\\Szertar.Dal\\Szertar.Dal.csproj": {
+              "projectPath": "E:\\Users\\szeke\\Dokumentumok\\Önlab\\Szertar\\Szertar.Dal\\Szertar.Dal.csproj"
             }
           }
         }

@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Szertar.Dal.Managers;
 using Szertar.Models;
@@ -12,10 +10,12 @@ namespace Szertar.Controllers
 	public class HomeController : Controller
 	{
 		private IItemManager _itemManager;
+		private readonly IAuthorizationService _authorizationService;
 
-		public HomeController(IItemManager itemManager)
+		public HomeController(IAuthorizationService authorizationService, IItemManager itemManager)
 		{
 			_itemManager = itemManager;
+			_authorizationService = authorizationService;
 		}
 		
 		public IActionResult Index()
@@ -27,13 +27,6 @@ namespace Szertar.Controllers
 			return View( items );
 		}
 
-		[HttpPost]
-		public IActionResult AddToCart( int itemId, int count )
-		{
-			// Kliens oldal ajax-szal hívni. Pl Unobtrustiv ajax plugin behúzása
-			// TODO: implement. Figyelni, ha ez az Id már van a kosárban, akkor csak növelni.
-			throw new NotImplementedException();
-		}
 
 
 		public IActionResult Privacy()

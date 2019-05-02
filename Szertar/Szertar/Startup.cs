@@ -14,8 +14,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Szertar.Dal.Entities;
 using Szertar.Dal;
-using Szertar.Dal.Dto;
 using Szertar.Dal.Managers;
+using Szertar.Dal.Managers.Interfaces;
 
 namespace Szertar
 {
@@ -42,7 +42,9 @@ namespace Szertar
 				options.UseSqlServer(
 					Configuration.GetConnectionString("DefaultConnection")));
 
-			services.AddScoped<IItemManager,ItemManager>();
+			services.AddScoped<IItemManager, ItemManager>();
+			services.AddScoped<ICartManager, CartManager>();
+			services.AddScoped<IOrderManager, OrderManager>();
 
 			services.AddDefaultIdentity<ApplicationUser>()
 				.AddDefaultUI(UIFramework.Bootstrap4)

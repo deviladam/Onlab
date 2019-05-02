@@ -1,0 +1,70 @@
+﻿@model List<Szertar.Dal.Dto.CartItemHeader>
+@using Szertar.Dal.Managers.Interfaces
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<Szertar.Dal.Entities.ApplicationUser> UserManager
+@inject ICartManager CartManager
+
+@{
+	ViewData["Title"] = "Cart";
+}
+<div id="mySidebar" class="h-50">
+	<div class="row h-100 text">
+		<div class="col-sm-1">
+			<div class="row align-items-center h-100">
+				<div class="col-sm-12">
+					<h3><b><</b></h3>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-10">
+			<div class="row align-items-end justify-content-center h-100">
+				<a asp-controller="Order" asp-action="Index">
+					<div class="btn btn-dark">Lefoglal</div>
+				</a>
+			</div>
+		</div>
+
+	</div>
+</div>
+<h1>Cart</h1>
+
+<div class="container">
+	@if (CartManager.GetItemsCountOfCart(UserManager.GetUserId(User)) == 0)
+	{<div class="row justify-content-center"><h2>Kosár jelenleg üres!</h2></div>}
+	@foreach (var cartItem in Model)
+	{
+		<div class="container-fluid m-3 bg-light">
+			<div class="row justify-content-center">
+				<div class="col-sm-9">
+					<div class="row">
+						<div class="col-sm-auto">
+							<img src="~/vendor/img/item.jpg" alt="Cart Item" height="100" width="100" />
+						</div>
+						<div class="col-sm-10">
+							<div class="row justify-content-between h-100">
+
+								<div class="col-sm-10 text-left"><b>@cartItem.Name</b></div>
+								<div class="col-sm-2 text-right">
+									<form method="post" asp-controller="Cart" asp-action="Delete">
+										<div class="form-group">
+											<input type="hidden" name="itemId" value="@cartItem.Id" />
+											<button type="submit" class="btn btn-dark">
+												<b>X</b>
+											</button>
+										</div>
+
+									</form>
+								</div>
+								<div class="col-sm-12 text-left"><b>Bérelhető</b>:&nbsp;@cartItem.AvailableCount&nbsp;db</div>
+								<div class="col-sm-3 text-left"><b>Ár/nap</b>:&nbsp;@cartItem.Price&nbsp;Ft</div>
+								<div class="col-sm-3 text-right">Mennyiség:&nbsp;<b>@cartItem.Quantity</b>&nbsp;db</div>
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	}
+</div>

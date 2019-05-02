@@ -7,8 +7,6 @@ namespace Szertar.Dal.Entities
 {
 	public class Cart
 	{
-
-
 		public int CartId { get; set; }
 
 		[ForeignKey("ApplicationUser")]

@@ -21,6 +21,7 @@
 
 
   <ItemGroup>
+    <Folder Include="Views\Order\" />
     <Folder Include="wwwroot\vendor\img\" />
   </ItemGroup>
 

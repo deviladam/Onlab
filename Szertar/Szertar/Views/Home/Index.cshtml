@@ -1,49 +1,72 @@
 ﻿@model List<Szertar.Dal.Dto.ItemHeader>
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<Szertar.Dal.Entities.ApplicationUser> SignInManager
+
 @{
 
-	ViewData["Title"] = "Home Page";
+	ViewData["Title"] = "Szertár";
 }
 
-<div class="text-center">
-	<h1 class="display-4">Welcome</h1>
+<h1 class="display-4 text-center">Welcome</h1>
 
-	@* 2019-ben nem használunk táblázatot layoutra. *@
+<div class="container">
 
-	<div class="table">
-		<div class="row">
-				<div class="col-sm-4">
-					Név
-				</div>
-				<div class="col-sm-4">
-					Bérelhető/Készlet
-				</div>
-				<div class="col-sm-4"></div>
-		</div>
-			
-
-				@foreach (var item in Model)
-				{
+	@foreach (var item in Model)
+	{
+		<div class="container-fluid m-3 bg-light">
+			<div class="row justify-content-center">
+				<div class="col-sm-9">
 					<div class="row">
-						<div class="col-sm-4">
+						<div class="col-sm-12 text-left h3">
 							@item.Name
 						</div>
-						<div class="col-sm-4">
-							@item.AvailableCount&nbsp;/&nbsp;@item.Stock
+					</div>
+					<div class="row">
+						<div class="col-sm-auto">
+							
+								<img src="~/vendor/img/item.jpg" alt="TestItem" />
+							
 						</div>
-						<div class="col-sm-4">
-							@* TODO: Megadni, hogy postoláskor hova küldje az adatokt *@
-							<form method="post" asp-controller="Home" asp-action="AddToCart">
-								<input type="hidden" />
-								@* TODO: min / max TODO: szerver oldali validáció *@
-								<input type="number" name="count">
-								@*<input type="image" name="submitButton" alt="Submit Form" src="~/vendor/img/cart.png" height="32" width="32">*@
-								<button type="submit">
-									<img src="~/vendor/img/cart.png" alt="AddToCart" height="32" width="32" />
-								</button>
-							</form>
+
+						<div class="col-sm-7">
+							<div class="row h-100">
+								<div class="col-sm-12 text-left">@item.Description<br /><br /></div>
+								<div class="col-sm-12 align-self-end">
+									<div class="row justify-content-between align-self-end">
+										<div class="col-sm-6 align-self-end">
+											<div class="col-sm-12 text-left"><b>Készlet</b>:&nbsp;@item.Stock&nbsp;db</div>
+											<div class="col-sm-12 text-left"><b>Bérelhető</b>:&nbsp;@item.AvailableCount&nbsp;db</div>
+											<div class="col-sm-12 text-left"><b>Ár/nap</b>:&nbsp;@item.Price&nbsp;Ft</div>
+										</div>
+										<div class="col-sm-3 align-self-end">
+
+											@if (SignInManager.IsSignedIn(User))
+											{
+												<form method="post" asp-controller="Cart" asp-action="AddToCart">
+													<div class="form-group">
+														<input type="hidden" name="itemId" value="@item.Id" />
+														<input type="number" name="count" class="form-control" min="0" max="@item.AvailableCount" @((item.AvailableCount == 0) ? "disabled" : "")>
+														<button type="submit" class="btn btn-light m-1" @((item.AvailableCount == 0) ? "disabled" : "")>
+
+															<img src="~/vendor/img/cart.png" alt="AddToCart" height="30" width="30" />
+
+														</button>
+
+													</div>
+
+												</form>
+											}
+
+										</div>
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>
-				}
-			
+
+				</div>
+			</div>
 		</div>
+	}
 </div>
+

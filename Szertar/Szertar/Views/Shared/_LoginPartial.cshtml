@@ -1,26 +1,40 @@
 @using Microsoft.AspNetCore.Identity
+@using Szertar.Dal.Managers.Interfaces
 @inject SignInManager<Szertar.Dal.Entities.ApplicationUser> SignInManager
 @inject UserManager<Szertar.Dal.Entities.ApplicationUser> UserManager
+@inject ICartManager CartManager
+
 
 <ul class="navbar-nav">
-@if (SignInManager.IsSignedIn(User))
-{
-    <li class="nav-item">
-        <a  class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity.Name!</a>
-    </li>
-    <li class="nav-item">
-        <form  class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-            <button  type="submit" class="nav-link btn btn-link text-dark">Logout</button>
-        </form>
-    </li>
-}
-else
-{
-    <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
-    </li>
-}
+	@if (SignInManager.IsSignedIn(User))
+	{
+		<li class="nav-item">
+			<a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity.Name!</a>
+		</li>
+
+		<li class="nav-item">
+			<form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+				<button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+			</form>
+		</li>
+
+		<li class="nav-item">
+			<a class="nav-link" asp-area="" asp-controller="Cart" asp-action="Index">
+				<img src="~/vendor/img/nav-cart.png" height="32" width="32" alt="Cart" />
+				@if (CartManager.GetItemsCountOfCart(UserManager.GetUserId(User)) > 0)
+				{
+					<sup><div class="btn btn-danger btn-circle">@CartManager.GetItemsCountOfCart(UserManager.GetUserId(User))</div></sup>
+				}
+			</a>
+		</li>
+	}
+	else
+	{
+		<li class="nav-item">
+			<a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
+		</li>
+	}
 </ul>

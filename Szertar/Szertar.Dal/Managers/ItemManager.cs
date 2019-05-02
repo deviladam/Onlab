@@ -9,16 +9,7 @@ namespace Szertar.Dal.Managers
 {
 	public class ItemManager : IItemManager
 	{
-		// TODO: DI-al betölteni a db contextet.
-
-		//public static ApplicationDbContext dbcontext = null;
-
-		//public static void InitDbcontext(IServiceProvider serviceProvider)
-		//{
-		//	IServiceScope scope = serviceProvider.GetService<IServiceScopeFactory>().CreateScope();
-		//	dbcontext = scope.ServiceProvider.GetService<ApplicationDbContext>();
-		//}
-
+		
 		private readonly ApplicationDbContext _dbContext = null;
 
 		public ItemManager(ApplicationDbContext dbContext)
@@ -32,8 +23,10 @@ namespace Szertar.Dal.Managers
 				Id = i.Id,
 				Name = i.Name,
 				Price = i.Price,
-				Stock = i.Stock
-			}).ToList();
+				Stock = i.Stock,
+				AvailableCount = i.AvailableCount,
+				Description = i.Description
+			}).OrderBy(i => i.Name).ToList();
 
 			//var items = from t in dbcontext.Items
 						//select t;

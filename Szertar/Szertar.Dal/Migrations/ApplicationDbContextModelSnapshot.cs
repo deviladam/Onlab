@@ -212,7 +212,7 @@ namespace Szertar.Dal.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("CartId");
+                    b.Property<int>("CartId");
 
                     b.Property<int>("ItemId");
 
@@ -285,7 +285,7 @@ namespace Szertar.Dal.Migrations
 
                     b.Property<int>("ItemId");
 
-                    b.Property<int?>("OrderId");
+                    b.Property<int>("OrderId");
 
                     b.Property<int>("Quantity");
 
@@ -361,7 +361,8 @@ namespace Szertar.Dal.Migrations
                 {
                     b.HasOne("Szertar.Dal.Entities.Cart")
                         .WithMany("Items")
-                        .HasForeignKey("CartId");
+                        .HasForeignKey("CartId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Szertar.Dal.Entities.Item", "Item")
                         .WithMany()
@@ -385,7 +386,8 @@ namespace Szertar.Dal.Migrations
 
                     b.HasOne("Szertar.Dal.Entities.Order")
                         .WithMany("Items")
-                        .HasForeignKey("OrderId");
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

@@ -4376,11 +4376,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\Users\\szeke\\Documents\\GitHub\\Onlab\\Szertar\\Szertar.Dal\\Szertar.Dal.csproj",
+      "projectUniqueName": "E:\\Users\\szeke\\Dokumentumok\\Önlab\\Szertar\\Szertar.Dal\\Szertar.Dal.csproj",
       "projectName": "Szertar.Dal",
-      "projectPath": "E:\\Users\\szeke\\Documents\\GitHub\\Onlab\\Szertar\\Szertar.Dal\\Szertar.Dal.csproj",
+      "projectPath": "E:\\Users\\szeke\\Dokumentumok\\Önlab\\Szertar\\Szertar.Dal\\Szertar.Dal.csproj",
       "packagesPath": "C:\\Users\\szeke\\.nuget\\packages\\",
-      "outputPath": "E:\\Users\\szeke\\Documents\\GitHub\\Onlab\\Szertar\\Szertar.Dal\\obj\\",
+      "outputPath": "E:\\Users\\szeke\\Dokumentumok\\Önlab\\Szertar\\Szertar.Dal\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
