@@ -1,4 +1,5 @@
-Szertar\Szertar\bin\*
-Szertar\Szertar\obj\*
-Szertar\Szertar.Dal\bin\*
-Szertar\Szertar.Dal\obj\*
+Szertar\Szertar\bin
+Szertar\Szertar\obj
+Szertar\Szertar.Dal\bin
+Szertar\Szertar.Dal\obj
+Szertar\.vs
