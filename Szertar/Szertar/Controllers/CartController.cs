@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -28,9 +29,18 @@ namespace Szertar.Controllers
 		[HttpPost]
 		public IActionResult AddToCart(int itemId, int count)
 		{
-			if (count == 0) return RedirectToAction("Index", "Home");
+			if (count == 0)
+				return RedirectToAction("Index", "Home");
+
+			// TODO: Calimek közül kiszedni. Ha jó akkor a ClaimsPrincipalhoz egy extension method / Property UserId.
+			var a = User.Claims.FirstOrDefault((c => c.Type == ClaimTypes.NameIdentifier));
+
 			var userId = _userManager.GetUserId(HttpContext.User);
+
+			// TODO: Ha nincs ennyi raktáron.
+			//ModelState.AddModelError("","")
 			_cartManager.AddItemToCart(itemId, count, userId);
+
 			return RedirectToAction("Index","Home");
 		}
 
