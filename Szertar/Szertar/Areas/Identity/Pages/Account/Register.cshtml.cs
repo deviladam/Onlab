@@ -40,20 +40,27 @@ namespace Szertar.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required]
-            [EmailAddress]
+
+			[Required(ErrorMessage = "A(z) {0} kitöltése kötelező")]
+			[StringLength(100, ErrorMessage = "A {0} legalább {2} és legfeljebb {1} karakter hoszú.", MinimumLength = 3)]
+			[Display(Name = "Felhasználónév")]
+			public string Username { get; set; }
+
+
+			[Required(ErrorMessage = "A(z) {0} kitöltése kötelező")]
+			[EmailAddress(ErrorMessage = "Az {0} cím nem érvényes.")]
             [Display(Name = "Email")]
             public string Email { get; set; }
 
-            [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+			[Required(ErrorMessage = "A(z) {0} kitöltése kötelező")]
+			[StringLength(100, ErrorMessage = "A {0} legalább {2} és legfeljebb {1} karakter hoszú.", MinimumLength = 6)]
             [DataType(DataType.Password)]
-            [Display(Name = "Password")]
+            [Display(Name = "Jelszó")]
             public string Password { get; set; }
 
             [DataType(DataType.Password)]
-            [Display(Name = "Confirm password")]
-            [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+            [Display(Name = "Jelszó megerősítés")]
+            [Compare("Password", ErrorMessage = "Nem egyezik a két jelszó.")]
             public string ConfirmPassword { get; set; }
         }
 
@@ -67,7 +74,7 @@ namespace Szertar.Areas.Identity.Pages.Account
             returnUrl = returnUrl ?? Url.Content("~/");
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email };
+                var user = new ApplicationUser { UserName = Input.Username, Email = Input.Email };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {

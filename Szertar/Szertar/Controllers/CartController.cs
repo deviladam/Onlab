@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -17,190 +18,60 @@ namespace Szertar.Controllers
     {
 
 		private readonly ICartManager _cartManager;
-		private readonly UserManager<Szertar.Dal.Entities.ApplicationUser> _userManager;
 
-
-		public CartController(ICartManager cartManager, UserManager<Szertar.Dal.Entities.ApplicationUser> userManager)
+		public CartController(ICartManager cartManager)
 		{
 			_cartManager = cartManager;
-			_userManager = userManager;
 		}
 
 		[HttpPost]
+		[Authorize]
 		public IActionResult AddToCart(int itemId, int count)
 		{
 			if (count == 0)
+			{
+				TempData["error"] = "Nincsen megadva a eszközök darabszáma!";
 				return RedirectToAction("Index", "Home");
+			}
+				
 
 			// TODO: Calimek közül kiszedni. Ha jó akkor a ClaimsPrincipalhoz egy extension method / Property UserId.
-			var a = User.Claims.FirstOrDefault((c => c.Type == ClaimTypes.NameIdentifier));
+			var a = User.Claims.FirstOrDefault((c => c.Type == ClaimTypes.NameIdentifier)).Value;
 
-			var userId = _userManager.GetUserId(HttpContext.User);
+			var userId = User.Claims.FirstOrDefault((c => c.Type == ClaimTypes.NameIdentifier)).Value;
 
-			// TODO: Ha nincs ennyi raktáron.
-			//ModelState.AddModelError("","")
-			_cartManager.AddItemToCart(itemId, count, userId);
-
-			return RedirectToAction("Index","Home");
+			if (_cartManager.AddItemToCart(itemId, count, userId) == 1)
+			{
+				TempData["error"] = "Nincsen rendben a eszközök darabszáma!";
+			}
+			ViewData["CartItemsNumber"] = _cartManager.GetItemsCountOfCart(userId);
+ 			return RedirectToAction("Index","Home");
 		}
 
-		public IActionResult Index()
+		[Authorize]
+		public IActionResult Cart()
 		{
-			var userId = _userManager.GetUserId(HttpContext.User);
+			var userId = User.Claims.FirstOrDefault((c => c.Type == ClaimTypes.NameIdentifier)).Value;
 			var cartItemsList = _cartManager.GetCurrentCartItemsList(userId);
+			int orderPrice = 0;
+			foreach (var item in cartItemsList)
+			{
+				orderPrice += item.Quantity * item.Price;
+			}
+			ViewData["orderPrice"] = orderPrice.ToString();
+			ViewData["CartItemsNumber"] = _cartManager.GetItemsCountOfCart(userId);
 			return View(cartItemsList);
 		}
 
 
-
-
-		// POST: Carts/Delete/5
 		[HttpPost]
+		[Authorize]
 		[ValidateAntiForgeryToken]
 		public  IActionResult Delete(int itemId)
 		{
-			var userId = _userManager.GetUserId(HttpContext.User);
+			var userId = User.Claims.FirstOrDefault((c => c.Type == ClaimTypes.NameIdentifier)).Value;
 			_cartManager.DeleteCartItem(itemId, userId);
-			return RedirectToAction(nameof(Index));
+			return RedirectToAction(nameof(Cart));
 		}
-
-
-
-		/* 
-		 * Generated
-		 * 
-        // GET: Carts
-        
-
-        // GET: Carts/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var cart = await _context.Carts
-                .Include(c => c.ApplicationUser)
-                .FirstOrDefaultAsync(m => m.CartId == id);
-            if (cart == null)
-            {
-                return NotFound();
-            }
-
-            return View(cart);
-        }
-
-        // GET: Carts/Create
-        public IActionResult Create()
-        {
-            ViewData["ApplicationUserId"] = new SelectList(_context.Set<ApplicationUser>(), "Id", "Id");
-            return View();
-        }
-
-        // POST: Carts/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CartId,ApplicationUserId")] Cart cart)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(cart);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["ApplicationUserId"] = new SelectList(_context.Set<ApplicationUser>(), "Id", "Id", cart.ApplicationUserId);
-            return View(cart);
-        }
-
-        // GET: Carts/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var cart = await _context.Carts.FindAsync(id);
-            if (cart == null)
-            {
-                return NotFound();
-            }
-            ViewData["ApplicationUserId"] = new SelectList(_context.Set<ApplicationUser>(), "Id", "Id", cart.ApplicationUserId);
-            return View(cart);
-        }
-
-        // POST: Carts/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CartId,ApplicationUserId")] Cart cart)
-        {
-            if (id != cart.CartId)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(cart);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!CartExists(cart.CartId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["ApplicationUserId"] = new SelectList(_context.Set<ApplicationUser>(), "Id", "Id", cart.ApplicationUserId);
-            return View(cart);
-        }
-
-        // GET: Carts/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var cart = await _context.Carts
-                .Include(c => c.ApplicationUser)
-                .FirstOrDefaultAsync(m => m.CartId == id);
-            if (cart == null)
-            {
-                return NotFound();
-            }
-
-            return View(cart);
-        }
-
-        // POST: Carts/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var cart = await _context.Carts.FindAsync(id);
-            _context.Carts.Remove(cart);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool CartExists(int id)
-        {
-            return _context.Carts.Any(e => e.CartId == id);
-        }*/
 	}
 }

@@ -7,66 +7,146 @@
 	ViewData["Title"] = "Szertár";
 }
 
-<h1 class="display-4 text-center">Welcome</h1>
+@if (TempData["error"] != null)
+{
+	<div class="row justify-content-center">
+		<div class="col-sm-12 alert alert-danger" role="alert">@TempData["error"]</div>
+
+	</div>
+}
+<p>
+	<button class="btn btn-success" type="button" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
+		Szűrés
+	</button>
+</p>
+
+
 
 <div class="container">
-
-	@foreach (var item in Model)
-	{
-		<div class="container-fluid m-3 bg-light">
-			<div class="row justify-content-center">
-				<div class="col-sm-9">
-					<div class="row">
-						<div class="col-sm-12 text-left h3">
-							@item.Name
-						</div>
+	<div class="row justify-content-center">
+		<div class="collapse col-sm-3 p-0" id="collapseFilter">
+			<div class="card card-body bg-light m-1">
+				<div class="row"><b>Szűrés</b><br/></div>
+				<form asp-controller="Home" asp-action="Index" method="get">
+					<div class="form-group">
+						<label class="row" for="name">Név</label>
+						<input class="row" type="text" id="name" name="name">
 					</div>
-					<div class="row">
-						<div class="col-sm-auto">
-							
-								<img src="~/vendor/img/item.jpg" alt="TestItem" />
-							
+					<div class="form-group">
+						<label class="row" for="type">Tevékenség</label>
+						<input class="row" type="text" id="type" name="type">
+					</div>
+					<div class="row form-group">
+						<label for="have">Van készleten</label>
+						<input type="checkbox" id="have" name="have">
+					</div>
+
+					<div class="row form-group">
+						<label for="priceDo">Ár alapján </label>
+						<input type="checkbox" id="priceDo" name="priceDo">
+					</div>
+
+					<div class="form-group">
+						<div class="row">
+							<div class="col-sm-6 text-left"><b><span id="min">100</span>&nbsp;Ft</b></div>
+							<div class="col-sm-6 text-right"><b><span id="max">1000</span>&nbsp;Ft</b></div>
+						</div>
+						<div class="row justify-content-center">
+							<input id="slider" type="text" name="price" class="span2" value="" data-slider-min="10" data-slider-max="2000" data-slider-step="5" data-slider-value="[100,1000]" />
 						</div>
 
-						<div class="col-sm-7">
-							<div class="row h-100">
-								<div class="col-sm-12 text-left">@item.Description<br /><br /></div>
-								<div class="col-sm-12 align-self-end">
-									<div class="row justify-content-between align-self-end">
-										<div class="col-sm-6 align-self-end">
-											<div class="col-sm-12 text-left"><b>Készlet</b>:&nbsp;@item.Stock&nbsp;db</div>
-											<div class="col-sm-12 text-left"><b>Bérelhető</b>:&nbsp;@item.AvailableCount&nbsp;db</div>
-											<div class="col-sm-12 text-left"><b>Ár/nap</b>:&nbsp;@item.Price&nbsp;Ft</div>
-										</div>
-										<div class="col-sm-3 align-self-end">
+					</div>
 
-											@if (SignInManager.IsSignedIn(User))
-											{
-												<form method="post" asp-controller="Cart" asp-action="AddToCart">
-													<div class="form-group">
-														<input type="hidden" name="itemId" value="@item.Id" />
-														<input type="number" name="count" class="form-control" min="0" max="@item.AvailableCount" @((item.AvailableCount == 0) ? "disabled" : "")>
-														<button type="submit" class="btn btn-light m-1" @((item.AvailableCount == 0) ? "disabled" : "")>
 
-															<img src="~/vendor/img/cart.png" alt="AddToCart" height="30" width="30" />
+					<div class="row justify-content-center">
+						<button type="submit" class="btn btn-success m-1">
+							Szűrés
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+		<div class="col-sm-9">
+			@foreach (var item in Model)
+			{
+				<div class="container-fluid card m-1 bg-light">
+					<div class="row justify-content-center">
 
-														</button>
+						<div class="col-sm-12">
+							<div class="row">
+								<div class="col-sm-12 text-left h3">
+									@item.Name
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-auto">
 
-													</div>
+									<img src="data:image/png;base64,@Convert.ToBase64String(item.Image)" alt="TestItem" height="256" width="256" />
 
-												</form>
-											}
+								</div>
 
+								<div class="col-sm-7">
+									<div class="row h-100">
+										<div class="col-sm-12 text-left">@item.Description<br /><br /></div>
+										<div class="col-sm-12 align-self-end">
+											<div class="row justify-content-between align-self-end">
+												<div class="col-sm-6 align-self-end">
+													<div class="col-sm-12 text-left"><b>Készlet</b>:&nbsp;@item.Stock&nbsp;db</div>
+													<div class="col-sm-12 text-left"><b>Bérelhető</b>:&nbsp;@item.AvailableCount&nbsp;db</div>
+													<div class="col-sm-12 text-left"><b>Ár/nap</b>:&nbsp;@item.Price&nbsp;Ft</div>
+												</div>
+												<div class="col-sm-3 align-self-end">
+
+													@if (SignInManager.IsSignedIn(User))
+													{
+														<form method="post" asp-controller="Cart" asp-action="AddToCart">
+															<div class="form-group">
+																<input type="hidden" name="itemId" value="@item.Id" />
+																<input type="number" name="count" class="form-control" min="0" max="@item.AvailableCount" @((item.AvailableCount == 0) ? "disabled" : "")>
+																<button type="submit" class="btn btn-light m-1" @((item.AvailableCount == 0) ? "disabled" : "")>
+
+																	<img src="~/vendor/img/cart.png" alt="AddToCart" height="30" width="30" />
+
+																</button>
+
+															</div>
+
+														</form>
+													}
+
+												</div>
+											</div>
 										</div>
 									</div>
 								</div>
 							</div>
+
 						</div>
 					</div>
-
 				</div>
-			</div>
+			}
 		</div>
-	}
+	</div>
 </div>
+@section scripts {
+
+	<script>
+		let slider = $("#slider").slider({
+		});
+		$("#slider").slider("disable");
+		slider.on("change", function (obj) {
+			$("#min").html(obj.value.newValue[0]);
+			$("#max").html(obj.value.newValue[1]);
+		});
+		$("#priceDo").change(function () {
+			if (this.checked) {
+				$("#slider").slider("enable");
+			}
+			else {
+				$("#slider").slider("disable");
+			}
+		});
+		
+	</script>
+}
 

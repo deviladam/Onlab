@@ -11,7 +11,7 @@ namespace Szertar.Dal.Entities
 
 		[ForeignKey("ApplicationUser")]
 		public string ApplicationUserId { get; set; }
-		public ApplicationUser ApplicationUser { get; set; }
+		public virtual ApplicationUser ApplicationUser { get; set; }
 		public virtual List<CartItem> Items { get; set; }
 	}
 }

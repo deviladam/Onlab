@@ -19,10 +19,10 @@ namespace Szertar.Dal.Managers
 			_dbContext = dbContext;
 		}
 
-		public void AddItemToCart(int itemID, int quantity, string userId)
+		public int AddItemToCart(int itemID, int quantity, string userId)
 		{
 			var itemQuantity = _dbContext.Items.Where(i => i.Id == itemID).SingleOrDefault().AvailableCount;
-			if (quantity > itemQuantity || quantity < 0) return;
+			if (quantity > itemQuantity || quantity < 0) return 1;
 
 			var cart = _dbContext.Carts.Where(c => c.ApplicationUserId == userId).SingleOrDefault();
 			if (cart == null)
@@ -51,6 +51,7 @@ namespace Szertar.Dal.Managers
 
 			_dbContext.Items.Where(i => i.Id == itemID).Single().AvailableCount -= quantity; 
 			_dbContext.SaveChanges();
+			return 0;
 		}
 
 		public void DeleteCartItem(int cartItemId, string userId)
@@ -74,6 +75,7 @@ namespace Szertar.Dal.Managers
 					Name = ci.Item.Name,
 					AvailableCount = ci.Item.AvailableCount,
 					Price = ci.Item.Price,
+					Image = ci.Item.Image,
 					Quantity = ci.Quantity
 				}).OrderBy(ci => ci.Name).ToList();
 			return cartItems;

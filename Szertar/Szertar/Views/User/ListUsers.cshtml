@@ -1,0 +1,44 @@
+﻿@model List<Szertar.Dal.Dto.UserDetails>
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<Szertar.Dal.Entities.ApplicationUser> UserManager
+
+@{
+	ViewData["Title"] = "Felhasználók";
+}
+
+<h1>Felhasználók listája</h1>
+
+<table class="table">
+	<thead>
+		<tr>
+			<th>
+				@Html.DisplayNameFor(model => model[0].Name)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model[0].Email)
+			</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var item in Model)
+		{
+			<tr>
+				<td>
+					@Html.DisplayFor(modelItem => item.Name)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Email)
+				</td>
+				<td>
+					<a asp-controller="Order" asp-action="ListOrdersForUser" asp-route-id="@item.UserID">Orders</a>
+					@if (!@UserManager.IsInRoleAsync(UserManager.FindByIdAsync(item.UserID).Result, "Administrator").Result)
+					{
+						<span>|</span>
+						<a asp-action = "GiveMod" asp-route-id="@item.UserID"> Legyél Adminisztrátor </a>
+					}
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>

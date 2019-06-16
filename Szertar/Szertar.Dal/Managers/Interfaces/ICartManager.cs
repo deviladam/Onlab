@@ -7,7 +7,7 @@ namespace Szertar.Dal.Managers.Interfaces
 {
 	public interface ICartManager
 	{
-		void AddItemToCart(int itemID, int quantity, string userId);
+		int AddItemToCart(int itemID, int quantity, string userId);
 		int GetItemsCountOfCart(string userId);
 		List<CartItemHeader> GetCurrentCartItemsList(string userId);
 

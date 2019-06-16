@@ -1,7 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Szertar.Dal.Dto;
 using Szertar.Dal.Managers;
 using Szertar.Models;
 
@@ -18,21 +23,44 @@ namespace Szertar.Controllers
 			_authorizationService = authorizationService;
 		}
 		
-		public IActionResult Index()
+		public IActionResult Index(string name, string have, string type, string priceDo, string price)
 		{
-			// TODO: DI segítségével hogyan tudod elérni.
-			
-			var items = _itemManager.GetAllItems();
+			string[] filters = { name, have, type, priceDo, price };
+						
+			var items = _itemManager.GetAllItems(filters);
 
 			return View( items );
 		}
 
-
-
-		public IActionResult Privacy()
+		[Authorize(Roles = "Administrator")]
+		[HttpGet]
+		public IActionResult ItemAdd()
 		{
 			return View();
 		}
+
+		[Authorize(Roles = "Administrator")]
+		[HttpPost]
+		public async Task<IActionResult> ItemAdd(ItemDetails item, List<IFormFile> Image)
+		{
+			foreach (var i in Image)
+			{
+				if (i.Length > 0)
+				{
+					using (var stream = new MemoryStream())
+					{
+						await i.CopyToAsync(stream);
+						item.Image = stream.ToArray();
+					}
+				}
+			}
+			item.AvailableCount = item.Stock;
+			_itemManager.AddItem(item);
+			return RedirectToAction(nameof(Index));
+		}
+
+
+
 
 		[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
 		public IActionResult Error()

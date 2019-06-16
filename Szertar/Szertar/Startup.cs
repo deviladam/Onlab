@@ -16,6 +16,7 @@ using Szertar.Dal.Entities;
 using Szertar.Dal;
 using Szertar.Dal.Managers;
 using Szertar.Dal.Managers.Interfaces;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 
 namespace Szertar
 {
@@ -39,18 +40,30 @@ namespace Szertar
 			});
 
 			services.AddDbContext<ApplicationDbContext>(options =>
-				options.UseSqlServer(
+				options.UseLazyLoadingProxies().UseSqlServer(
 					Configuration.GetConnectionString("DefaultConnection")));
 
 			services.AddScoped<IItemManager, ItemManager>();
 			services.AddScoped<ICartManager, CartManager>();
 			services.AddScoped<IOrderManager, OrderManager>();
+			services.AddScoped<IUserManager, UserManager>();
 
 			services.AddDefaultIdentity<ApplicationUser>()
+				.AddRoles<IdentityRole>()
 				.AddDefaultUI(UIFramework.Bootstrap4)
 				.AddEntityFrameworkStores<ApplicationDbContext>();
 
 			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+			services.AddAuthentication().AddOpenIdConnect("Google","Google", o =>
+			 {
+				 o.ClientId = Configuration["Authentication:Google:ClientId"];
+				 o.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
+				 o.Authority = "https://accounts.google.com";
+				 o.ResponseType = OpenIdConnectResponseType.Code;
+				 o.CallbackPath = "/signin-google"; // Or register the default "/sigin-oidc"
+				 o.Scope.Add("email");
+			 });
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

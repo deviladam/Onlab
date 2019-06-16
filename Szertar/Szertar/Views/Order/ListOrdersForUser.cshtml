@@ -1,0 +1,510 @@
+﻿@model List<Szertar.Dal.Dto.OrderDetails>
+
+@{
+	ViewData["Title"] = "Rendelések";
+}
+
+@if (TempData["error"] != null)
+{
+	<div class="row justify-content-center">
+		<div class="col-sm-12 alert alert-danger" role="alert">@TempData["error"]</div>
+
+	</div>
+}
+
+<h1>Rendelések kezelése</h1>
+
+<div class="accordion" id="accordionID">
+	<div class="card">
+		<div class="card-header" id="headingOne">
+			<h2 class="mb-0">
+				<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+					Függőben
+				</button>
+			</h2>
+		</div>
+
+		<div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionID">
+			<div class="card-body">
+				<div class="row justify-content-end">
+					<div class="col-sm-3">
+						<b>
+							@Html.DisplayNameFor(model => model[0].ReleaseTime)
+						</b>
+					</div>
+					<div class="col-sm-3">
+						<b>
+							@Html.DisplayNameFor(model => model[0].Deadline)
+						</b>
+					</div>
+					<div class="col-sm-3">
+						<b>
+							@Html.DisplayNameFor(model => model[0].Price)
+						</b>
+					</div>
+					<div class="col-sm-1"></div>
+				</div>
+				@{int index = 0;}
+				@foreach (var order in Model)
+				{
+
+					if (order.Status != 0) { continue; }
+					<div class="card card-body p-1">
+						<div class="row justify-content-center">
+							<div class="col-sm-2">
+								<button class="btn btn-success p-0 m-0" type="button" data-toggle="collapse" data-target="#collaspseFuggoben-@index" aria-expanded="false" aria-controls="collaspseFuggoben-@index">
+									&nbsp;+&nbsp;
+								</button>
+							</div>
+							<div class="col-sm-3">
+								@Html.DisplayFor(modelItem => order.ReleaseTime)
+							</div>
+							<div class="col-sm-3">
+								@Html.DisplayFor(modelItem => order.Deadline)
+							</div>
+							<div class="col-sm-3">
+								@Html.DisplayFor(modelItem => order.Price)
+							</div>
+							<div class="col-sm-1">
+								<form method="post" asp-controller="Order" asp-action="Down">
+									<div class="form-group">
+										<input type="hidden" name="orderId" value="@order.OrderId" />
+										<button type="submit" class="btn btn-dark p-0 m-0">
+											<b>&nbsp;-&nbsp;&nbsp;</b>
+										</button>
+									</div>
+								</form>
+								<form method="post" asp-controller="Order" asp-action="Up">
+									<div class="form-group">
+										<input type="hidden" name="orderId" value="@order.OrderId" />
+										<button type="submit" class="btn btn-warning p-0 m-0">
+											<b>&nbsp;+&nbsp;</b>
+										</button>
+									</div>
+								</form>
+							</div>
+						</div>
+						<div class="collapse" id="collaspseFuggoben-@index">
+
+
+							@foreach (var oderItem in order.Items)
+							{
+
+								<div class="row justify-content-center">
+									<div class="col-sm-9 card m-1 p-1 bg-light">
+										<div class="row">
+											<div class="col-sm-auto">
+												<img src="data:image/png;base64,@Convert.ToBase64String(oderItem.Item.Image)" alt="Cart Item" height="64" width="64" />
+											</div>
+											<div class="col-sm-10">
+												<div class="row justify-content-between h-100">
+													<div class="col-sm-12 text-left"><b>@oderItem.Item.Name</b></div>
+
+													<div class="col-sm-3 text-left"><b>Ár/nap</b>:&nbsp;@oderItem.Item.Price&nbsp;Ft</div>
+													<div class="col-sm-3 text-right">Mennyiség:&nbsp;<b>@oderItem.Quantity</b>&nbsp;db</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							}
+						</div>
+					</div>
+					index++;
+				}
+			</div>
+		</div>
+	</div>
+	<div class="card">
+		<div class="card-header" id="headingTwo">
+			<h2 class="mb-0">
+				<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+					Átvehető
+				</button>
+			</h2>
+		</div>
+		<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionID">
+			<div class="card-body">
+				<div class="card-body">
+					<div class="row justify-content-end">
+						<div class="col-sm-3">
+							<b>
+								@Html.DisplayNameFor(model => model[0].ReleaseTime)
+							</b>
+						</div>
+						<div class="col-sm-3">
+							<b>
+								@Html.DisplayNameFor(model => model[0].Deadline)
+							</b>
+						</div>
+						<div class="col-sm-3">
+							<b>
+								@Html.DisplayNameFor(model => model[0].Price)
+							</b>
+						</div>
+						<div class="col-sm-1"></div>
+					</div>
+					@{index = 0;}
+					@foreach (var order in Model)
+					{
+
+						if (order.Status != 1) { continue; }
+						<div class="card card-body p-1">
+							<div class="row justify-content-center">
+								<div class="col-sm-2">
+									<button class="btn btn-success p-0 m-0" type="button" data-toggle="collapse" data-target="#collaspseAtveheto-@index" aria-expanded="false" aria-controls="collaspseAtveheto-@index">
+										&nbsp;+&nbsp;
+									</button>
+								</div>
+								<div class="col-sm-3">
+									@Html.DisplayFor(modelItem => order.ReleaseTime)
+								</div>
+								<div class="col-sm-3">
+									@Html.DisplayFor(modelItem => order.Deadline)
+								</div>
+								<div class="col-sm-3">
+									@Html.DisplayFor(modelItem => order.Price)
+								</div>
+								<div class="col-sm-1">
+									<form method="post" asp-controller="Order" asp-action="Down">
+										<div class="form-group">
+											<input type="hidden" name="orderId" value="@order.OrderId" />
+											<button type="submit" class="btn btn-dark p-0 m-0">
+												<b>&nbsp;-&nbsp;&nbsp;</b>
+											</button>
+										</div>
+									</form>
+									<form method="post" asp-controller="Order" asp-action="Up">
+										<div class="form-group">
+											<input type="hidden" name="orderId" value="@order.OrderId" />
+											<button type="submit" class="btn btn-warning p-0 m-0">
+												<b>&nbsp;+&nbsp;</b>
+											</button>
+										</div>
+									</form>
+								</div>
+							</div>
+							<div class="collapse" id="collaspseAtveheto-@index">
+
+
+								@foreach (var oderItem in order.Items)
+								{
+
+									<div class="row justify-content-center">
+										<div class="col-sm-9 card m-1 p-1 bg-light">
+											<div class="row">
+												<div class="col-sm-auto">
+													<img src="data:image/png;base64,@Convert.ToBase64String(oderItem.Item.Image)" alt="Cart Item" height="64" width="64" />
+												</div>
+												<div class="col-sm-10">
+													<div class="row justify-content-between h-100">
+														<div class="col-sm-12 text-left"><b>@oderItem.Item.Name</b></div>
+
+														<div class="col-sm-3 text-left"><b>Ár/nap</b>:&nbsp;@oderItem.Item.Price&nbsp;Ft</div>
+														<div class="col-sm-3 text-right">Mennyiség:&nbsp;<b>@oderItem.Quantity</b>&nbsp;db</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								}
+							</div>
+						</div>
+						index++;
+					}
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="card">
+		<div class="card-header" id="headingThree">
+			<h2 class="mb-0">
+				<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+					Kiadva
+				</button>
+			</h2>
+		</div>
+		<div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionID">
+			<div class="card-body">
+				<div class="card-body">
+					<div class="row justify-content-end">
+						<div class="col-sm-3">
+							<b>
+								@Html.DisplayNameFor(model => model[0].ReleaseTime)
+							</b>
+						</div>
+						<div class="col-sm-3">
+							<b>
+								@Html.DisplayNameFor(model => model[0].Deadline)
+							</b>
+						</div>
+						<div class="col-sm-3">
+							<b>
+								@Html.DisplayNameFor(model => model[0].Price)
+							</b>
+						</div>
+						<div class="col-sm-1"></div>
+					</div>
+					@{index = 0;}
+					@foreach (var order in Model)
+					{
+
+						if (order.Status != 2) { continue; }
+						<div class="card card-body p-1">
+							<div class="row justify-content-center">
+								<div class="col-sm-2">
+									<button class="btn btn-success p-0 m-0" type="button" data-toggle="collapse" data-target="#collaspseKiadva-@index" aria-expanded="false" aria-controls="collaspseKiadva-@index">
+										&nbsp;+&nbsp;
+									</button>
+								</div>
+								<div class="col-sm-3">
+									@Html.DisplayFor(modelItem => order.ReleaseTime)
+								</div>
+								<div class="col-sm-3">
+									@Html.DisplayFor(modelItem => order.Deadline)
+								</div>
+								<div class="col-sm-3">
+									@Html.DisplayFor(modelItem => order.Price)
+								</div>
+								<div class="col-sm-1">
+									<form method="post" asp-controller="Order" asp-action="Down">
+										<div class="form-group">
+											<input type="hidden" name="orderId" value="@order.OrderId" />
+											<button type="submit" class="btn btn-dark p-0 m-0">
+												<b>&nbsp;-&nbsp;&nbsp;</b>
+											</button>
+										</div>
+									</form>
+									<form method="post" asp-controller="Order" asp-action="Up">
+										<div class="form-group">
+											<input type="hidden" name="orderId" value="@order.OrderId" />
+											<button type="submit" class="btn btn-warning p-0 m-0">
+												<b>&nbsp;+&nbsp;</b>
+											</button>
+										</div>
+									</form>
+								</div>
+							</div>
+							<div class="collapse" id="collaspseKiadva-@index">
+
+
+								@foreach (var oderItem in order.Items)
+								{
+
+									<div class="row justify-content-center">
+										<div class="col-sm-9 card m-1 p-1 bg-light">
+											<div class="row">
+												<div class="col-sm-auto">
+													<img src="data:image/png;base64,@Convert.ToBase64String(oderItem.Item.Image)" alt="Cart Item" height="64" width="64" />
+												</div>
+												<div class="col-sm-10">
+													<div class="row justify-content-between h-100">
+														<div class="col-sm-12 text-left"><b>@oderItem.Item.Name</b></div>
+
+														<div class="col-sm-3 text-left"><b>Ár/nap</b>:&nbsp;@oderItem.Item.Price&nbsp;Ft</div>
+														<div class="col-sm-3 text-right">Mennyiség:&nbsp;<b>@oderItem.Quantity</b>&nbsp;db</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								}
+							</div>
+						</div>
+						index++;
+					}
+				</div>
+			</div>
+
+		</div>
+	</div>
+	<div class="card">
+		<div class="card-header" id="headingThree">
+			<h2 class="mb-0">
+				<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+					Teljesített
+				</button>
+			</h2>
+		</div>
+		<div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordionID">
+			<div class="card-body">
+				<div class="card-body">
+					<div class="row justify-content-end">
+						<div class="col-sm-3">
+							<b>
+								@Html.DisplayNameFor(model => model[0].ReleaseTime)
+							</b>
+						</div>
+						<div class="col-sm-3">
+							<b>
+								@Html.DisplayNameFor(model => model[0].Deadline)
+							</b>
+						</div>
+						<div class="col-sm-3">
+							<b>
+								@Html.DisplayNameFor(model => model[0].Price)
+							</b>
+						</div>
+						<div class="col-sm-1"></div>
+					</div>
+					@{index = 0;}
+					@foreach (var order in Model)
+					{
+
+						if (order.Status != 3) { continue; }
+						<div class="card card-body p-1">
+							<div class="row justify-content-center">
+								<div class="col-sm-2">
+									<button class="btn btn-success p-0 m-0" type="button" data-toggle="collapse" data-target="#collaspseTeljesitett-@index" aria-expanded="false" aria-controls="collaspseTeljesitett-@index">
+										&nbsp;+&nbsp;
+									</button>
+								</div>
+								<div class="col-sm-3">
+									@Html.DisplayFor(modelItem => order.ReleaseTime)
+								</div>
+								<div class="col-sm-3">
+									@Html.DisplayFor(modelItem => order.Deadline)
+								</div>
+								<div class="col-sm-3">
+									@Html.DisplayFor(modelItem => order.Price)
+								</div>
+								<div class="col-sm-1">
+									<form method="post" asp-controller="Order" asp-action="Down">
+										<div class="form-group">
+											<input type="hidden" name="orderId" value="@order.OrderId" />
+											<button type="submit" class="btn btn-dark p-0 m-0">
+												<b>&nbsp;-&nbsp;&nbsp;</b>
+											</button>
+										</div>
+									</form>
+								</div>
+							</div>
+							<div class="collapse" id="collaspseTeljesitett-@index">
+
+
+								@foreach (var oderItem in order.Items)
+								{
+
+									<div class="row justify-content-center">
+										<div class="col-sm-9 card m-1 p-1 bg-light">
+											<div class="row">
+												<div class="col-sm-auto">
+													<img src="data:image/png;base64,@Convert.ToBase64String(oderItem.Item.Image)" alt="Cart Item" height="64" width="64" />
+												</div>
+												<div class="col-sm-10">
+													<div class="row justify-content-between h-100">
+														<div class="col-sm-12 text-left"><b>@oderItem.Item.Name</b></div>
+
+														<div class="col-sm-3 text-left"><b>Ár/nap</b>:&nbsp;@oderItem.Item.Price&nbsp;Ft</div>
+														<div class="col-sm-3 text-right">Mennyiség:&nbsp;<b>@oderItem.Quantity</b>&nbsp;db</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								}
+							</div>
+						</div>
+						index++;
+					}
+				</div>
+			</div>
+
+		</div>
+	</div>
+	<div class="card">
+		<div class="card-header" id="headingThree">
+			<h2 class="mb-0">
+				<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+					Visszautasított
+				</button>
+			</h2>
+		</div>
+		<div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordionID">
+			<div class="card-body">
+				<div class="card-body">
+					<div class="row justify-content-end">
+						<div class="col-sm-3">
+							<b>
+								@Html.DisplayNameFor(model => model[0].ReleaseTime)
+							</b>
+						</div>
+						<div class="col-sm-3">
+							<b>
+								@Html.DisplayNameFor(model => model[0].Deadline)
+							</b>
+						</div>
+						<div class="col-sm-3">
+							<b>
+								@Html.DisplayNameFor(model => model[0].Price)
+							</b>
+						</div>
+						<div class="col-sm-1"></div>
+					</div>
+					@{index = 0;}
+					@foreach (var order in Model)
+					{
+
+						if (order.Status != -1) { continue; }
+						<div class="card card-body p-1">
+							<div class="row justify-content-center">
+								<div class="col-sm-2">
+									<button class="btn btn-success p-0 m-0" type="button" data-toggle="collapse" data-target="#collaspseVisszautasitott-@index" aria-expanded="false" aria-controls="collaspseVisszautasitott-@index">
+										&nbsp;+&nbsp;
+									</button>
+								</div>
+								<div class="col-sm-3">
+									@Html.DisplayFor(modelItem => order.ReleaseTime)
+								</div>
+								<div class="col-sm-3">
+									@Html.DisplayFor(modelItem => order.Deadline)
+								</div>
+								<div class="col-sm-3">
+									@Html.DisplayFor(modelItem => order.Price)
+								</div>
+								<div class="col-sm-1">
+									<form method="post" asp-controller="Order" asp-action="Up">
+										<div class="form-group">
+											<input type="hidden" name="orderId" value="@order.OrderId" />
+											<button type="submit" class="btn btn-warning p-0 m-0">
+												<b>&nbsp;+&nbsp;</b>
+											</button>
+										</div>
+									</form>
+								</div>
+							</div>
+							<div class="collapse" id="collaspseVisszautasitott-@index">
+
+
+								@foreach (var oderItem in order.Items)
+								{
+
+									<div class="row justify-content-center">
+										<div class="col-sm-9 card m-1 p-1 bg-light">
+											<div class="row">
+												<div class="col-sm-auto">
+													<img src="data:image/png;base64,@Convert.ToBase64String(oderItem.Item.Image)" alt="Cart Item" height="64" width="64" />
+												</div>
+												<div class="col-sm-10">
+													<div class="row justify-content-between h-100">
+														<div class="col-sm-12 text-left"><b>@oderItem.Item.Name</b></div>
+
+														<div class="col-sm-3 text-left"><b>Ár/nap</b>:&nbsp;@oderItem.Item.Price&nbsp;Ft</div>
+														<div class="col-sm-3 text-right">Mennyiség:&nbsp;<b>@oderItem.Quantity</b>&nbsp;db</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								}
+							</div>
+						</div>
+						index++;
+					}
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>
+

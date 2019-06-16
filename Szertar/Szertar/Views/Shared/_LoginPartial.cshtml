@@ -1,4 +1,4 @@
-@using Microsoft.AspNetCore.Identity
+﻿@using Microsoft.AspNetCore.Identity
 @using Szertar.Dal.Managers.Interfaces
 @inject SignInManager<Szertar.Dal.Entities.ApplicationUser> SignInManager
 @inject UserManager<Szertar.Dal.Entities.ApplicationUser> UserManager
@@ -8,18 +8,31 @@
 <ul class="navbar-nav">
 	@if (SignInManager.IsSignedIn(User))
 	{
+		@if (User.IsInRole("Administrator"))
+		{
+			<li class="nav-item">
+				<a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="ListUsers" title="ItemAdd">Felhasználók</a>
+			</li>
+
+			<li class="nav-item">
+				<a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="ItemAdd" title="ItemAdd">Új eszköz</a>
+			</li>
+		}
 		<li class="nav-item">
-			<a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity.Name!</a>
+			<a class="nav-link text-dark" asp-area="" asp-controller="Order" asp-action="ListOrders" title="ItemAdd">Rendelések</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Szia @User.Identity.Name!</a>
 		</li>
 
 		<li class="nav-item">
 			<form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-				<button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+				<button type="submit" class="nav-link btn btn-link text-dark">Kijelentkezés</button>
 			</form>
 		</li>
 
 		<li class="nav-item">
-			<a class="nav-link" asp-area="" asp-controller="Cart" asp-action="Index">
+			<a class="nav-link" asp-area="" asp-controller="Cart" asp-action="Cart">
 				<img src="~/vendor/img/nav-cart.png" height="32" width="32" alt="Cart" />
 				@if (CartManager.GetItemsCountOfCart(UserManager.GetUserId(User)) > 0)
 				{
@@ -31,10 +44,10 @@
 	else
 	{
 		<li class="nav-item">
-			<a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
+			<a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Regisztráció</a>
 		</li>
 		<li class="nav-item">
-			<a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
+			<a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Bejelentkezés</a>
 		</li>
 	}
 </ul>

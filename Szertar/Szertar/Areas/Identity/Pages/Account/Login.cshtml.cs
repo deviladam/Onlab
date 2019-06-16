@@ -37,15 +37,18 @@ namespace Szertar.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required]
-            [EmailAddress]
-            public string Email { get; set; }
+			[Required(ErrorMessage = "A(z) {0} kitöltése kötelező")]
+			[StringLength(100,ErrorMessage = "A felhasználónév minimum {2} karakter hosszú legyen!",MinimumLength = 3)]
+			[Display(Name ="Felhasználónév")]
+			public string Name { get; set; }
 
-            [Required]
-            [DataType(DataType.Password)]
-            public string Password { get; set; }
 
-            [Display(Name = "Remember me?")]
+			[Required(ErrorMessage = "A(z) {0} kitöltése kötelező")]
+			[DataType(DataType.Password)]
+			[Display(Name = "Jelszó")]
+			public string Password { get; set; }
+
+            [Display(Name = "Emlékezz rám?")]
             public bool RememberMe { get; set; }
         }
 
@@ -74,7 +77,7 @@ namespace Szertar.Areas.Identity.Pages.Account
             {
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: true);
+                var result = await _signInManager.PasswordSignInAsync(Input.Name, Input.Password, Input.RememberMe, lockoutOnFailure: true);
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");

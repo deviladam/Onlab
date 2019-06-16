@@ -227,7 +227,7 @@ namespace Szertar.Dal.Migrations
                     b.ToTable("CartItems");
                 });
 
-            modelBuilder.Entity("Szertar.Dal.Entities.Item", b =>
+            modelBuilder.Entity("Szertar.Dal.Entities.ItemDetails", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -258,9 +258,7 @@ namespace Szertar.Dal.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("ApplicationUserId");
-
-                    b.Property<string>("ApplicationUserId1");
+                    b.Property<string>("ApplicationUserId");
 
                     b.Property<DateTime>("Deadline");
 
@@ -272,7 +270,7 @@ namespace Szertar.Dal.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ApplicationUserId1");
+                    b.HasIndex("ApplicationUserId");
 
                     b.ToTable("Orders");
                 });
@@ -364,7 +362,7 @@ namespace Szertar.Dal.Migrations
                         .HasForeignKey("CartId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("Szertar.Dal.Entities.Item", "Item")
+                    b.HasOne("Szertar.Dal.Entities.ItemDetails", "Item")
                         .WithMany()
                         .HasForeignKey("ItemId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -374,12 +372,12 @@ namespace Szertar.Dal.Migrations
                 {
                     b.HasOne("Szertar.Dal.Entities.ApplicationUser", "ApplicationUser")
                         .WithMany("Orders")
-                        .HasForeignKey("ApplicationUserId1");
+                        .HasForeignKey("ApplicationUserId");
                 });
 
             modelBuilder.Entity("Szertar.Dal.Entities.OrderdItem", b =>
                 {
-                    b.HasOne("Szertar.Dal.Entities.Item", "Item")
+                    b.HasOne("Szertar.Dal.Entities.ItemDetails", "Item")
                         .WithMany()
                         .HasForeignKey("ItemId")
                         .OnDelete(DeleteBehavior.Cascade);
