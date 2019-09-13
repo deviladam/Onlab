@@ -1,9 +1,0 @@
-E:\Users\szeke\Dokumentumok\Önlab\Szertar\Szertar.Dal\bin\Debug\netcoreapp2.2\Szertar.Dal.deps.json
-E:\Users\szeke\Dokumentumok\Önlab\Szertar\Szertar.Dal\bin\Debug\netcoreapp2.2\Szertar.Dal.dll
-E:\Users\szeke\Dokumentumok\Önlab\Szertar\Szertar.Dal\obj\Debug\netcoreapp2.2\Szertar.Dal.csproj.CoreCompileInputs.cache
-E:\Users\szeke\Dokumentumok\Önlab\Szertar\Szertar.Dal\obj\Debug\netcoreapp2.2\Szertar.Dal.AssemblyInfoInputs.cache
-E:\Users\szeke\Dokumentumok\Önlab\Szertar\Szertar.Dal\obj\Debug\netcoreapp2.2\Szertar.Dal.AssemblyInfo.cs
-E:\Users\szeke\Dokumentumok\Önlab\Szertar\Szertar.Dal\bin\Debug\netcoreapp2.2\Szertar.Dal.pdb
-E:\Users\szeke\Dokumentumok\Önlab\Szertar\Szertar.Dal\obj\Debug\netcoreapp2.2\Szertar.Dal.dll
-E:\Users\szeke\Dokumentumok\Önlab\Szertar\Szertar.Dal\obj\Debug\netcoreapp2.2\Szertar.Dal.pdb
-E:\Users\szeke\Dokumentumok\Önlab\Szertar\Szertar.Dal\obj\Debug\netcoreapp2.2\Szertar.Dal.csprojAssemblyReference.cache
