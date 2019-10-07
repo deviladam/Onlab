@@ -5,6 +5,7 @@ using System.Linq;
 using Microsoft.Extensions.DependencyInjection;
 using Szertar.Dal.Dto;
 using Szertar.Dal.Entities;
+using X.PagedList;
 
 namespace Szertar.Dal.Managers
 {
@@ -24,7 +25,7 @@ namespace Szertar.Dal.Managers
 			_dbContext.SaveChanges();
 		}
 
-		public List<ItemHeader> GetAllItems(string[] filters)
+		public IPagedList<ItemHeader> GetAllItems(string[] filters, int? page)
 		{
 			var items = _dbContext.Items.Where(i => i.Activity.Contains(!String.IsNullOrEmpty(filters[2])?filters[2]:"")).Select(i => new ItemHeader
 			{
@@ -55,8 +56,10 @@ namespace Szertar.Dal.Managers
 				items = items.Where(i => i.Price >= min && i.Price <= max);
 			}
 
+			int pageSize = 3;
+			int pageNumber = (page ?? 1);
 
-			var result = items.OrderBy(i => i.Name).ToList();
+			var result = items.OrderBy(i => i.Name).ToPagedList(pageNumber, pageSize);
 			return result;
 
 		}

@@ -10,6 +10,8 @@ namespace Szertar.Dal.Managers.Interfaces
 	{
 		int TakeCartOrder(OrderTimes order, string userId);
 
+		int GetCountForType(int type, string userId);
+
 		List<OrderDetails> GetOrders(string userId);
 
 		int DeleteOrder(int orderId, string userId);

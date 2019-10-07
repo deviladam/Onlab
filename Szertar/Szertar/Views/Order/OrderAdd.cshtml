@@ -4,22 +4,44 @@
 	ViewData["Title"] = "Foglalás";
 }
 
-
 <h4>Kosár lefoglal</h4>
 <hr />
 <div class="row">
-	<div class="col-md-4">
+	<div class="col-md-8">
 		<form asp-action="OrderAdd" method="post">
 			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
-			<div class="form-group">
-				<label asp-for="ReleaseTime" class="control-label"></label>
-				<input asp-for="ReleaseTime" class="form-control" />
-				<span asp-validation-for="ReleaseTime" class="text-danger"></span>
-			</div>
-			<div class="form-group">
-				<label asp-for="Deadline" class="control-label"></label>
-				<input asp-for="Deadline" class="form-control" />
-				<span asp-validation-for="Deadline" class="text-danger"></span>
+
+			<div id="app" class="row">
+
+				<div class="col-6 form-group pick-up datepicker-trigger">
+					<label asp-for="ReleaseTime">Átvétel időpontja</label>
+					<input asp-for="ReleaseTime" type="text" id="rent-date" class="form-control" :value="formatDates(dateOne)" placeholder="Átvétel időpontja" autofocus="" readonly>
+					<span asp-validation-for="ReleaseTime" class="text-danger"></span>
+
+				</div>
+
+				<div class="col-6 form-group pick-down">
+					<label asp-for="Deadline">Leadás időpontja</label>
+					<input asp-for="Deadline" type="text" id="rent-date" class="form-control" :value="formatDates(dateTwo)" placeholder="Leadás időpontja" autofocus="" readonly>
+
+					<span asp-validation-for="Deadline" class="text-danger"></span>
+					
+				</div>
+
+				<div class="col-12">
+					<airbnb-style-datepicker :trigger-element-id="'rent-date'"
+											 :mode="'range'" 
+											 :fullscreen-mobile="true"
+											 :mobile-header=String("Bérlés")
+											 :show-shortcuts-menu-trigger="false"
+											 :date-one="dateOne"
+											 :date-two="dateTwo"
+											 @@date-one-selected="function(val) { dateOne = val }"
+											 @@date-two-selected="function(val) { dateTwo = val }"
+											 @@previous-month="onChangeMonthMethod"
+											 @@next-month="onChangeMonthMethod"
+											 @@closed="onClosedMethod" />
+
 			</div>
 
 
@@ -33,5 +55,79 @@
 
 
 @section Scripts {
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/date-fns/1.29.0/date_fns.js"></script>
+	<script src="https://unpkg.com/vue-airbnb-style-datepicker@2.1.0/dist/vue-airbnb-style-datepicker.min.js"></script>
+
+	<script>
+		// define options (optional)
+		var datepickerOptions = {
+			sundayFirst: false,
+			days: ['Hétfő', 'Kedd', 'Szerda', 'Csütörtök', 'Péntek', 'Szombat', 'Vasárnap'],
+			daysShort: ['H', 'K', 'Sze', 'Cs', 'P', 'Szo', 'V'],
+			monthNames: [
+				'Január',
+				'Február',
+				'Március',
+				'Április',
+				'Május',
+				'Június',
+				'Július',
+				'Augusztus',
+				'Szeptember',
+				'Október',
+				'November',
+				'December',
+			],
+			texts: {
+				apply: 'Rendben',
+				cancel: 'Mégse',
+				keyboardShortcuts: 'Gyorsbillentyűk'
+			},
+			colors: {
+				selected: '#54cf2b',
+				inRange: '#a4db91',
+				selectedText: '#fff',
+				text: '#565a5c',
+				inRangeBorder: '#84a679',
+				disabled: '#fff',
+				hoveredInRange: '#d8f7cd'
+			},
+
+		}
+		// install plugin
+		Vue.use(window.AirbnbStyleDatepicker, datepickerOptions)
+
+		var app = new Vue({
+			el: '#app',
+			data: {
+				dateFormat: "YYYY.MM.DD.",
+				dateOne: '',
+				dateTwo: ''
+			},
+			methods: {
+				formatDates: function (dateOne, dateTwo) {
+					let formattedDates = ''
+					if (dateOne) {
+						formattedDates = dateFns.format(dateOne, this.dateFormat)
+					}
+					if (dateTwo) {
+						formattedDates += ' - ' + dateFns.format(dateTwo, this.dateFormat)
+					}
+					return formattedDates
+				},
+				onChangeMonthMethod: function (dates) {
+					console.log('months changed', dates)
+				},
+				onClosedMethod: function () {
+					var datesStr = this.formatDates(this.dateOne, this.dateTwo)
+					console.log('Dates Selected: ' + datesStr)
+				}
+			}
+		})
+	</script>
+
 	@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+
 }

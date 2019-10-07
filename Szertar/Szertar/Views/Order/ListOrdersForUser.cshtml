@@ -1,4 +1,7 @@
-﻿@model List<Szertar.Dal.Dto.OrderDetails>
+﻿@using Szertar.Dal.Managers.Interfaces
+@using System.Security.Claims;
+@model List<Szertar.Dal.Dto.OrderDetails>
+@inject IOrderManager OrderManager
 
 @{
 	ViewData["Title"] = "Rendelések";
@@ -19,7 +22,7 @@
 		<div class="card-header" id="headingOne">
 			<h2 class="mb-0">
 				<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-					Függőben
+					Függőben (@OrderManager.GetCountForType(0, (string)Html.ViewContext.RouteData.Values["id"]))
 				</button>
 			</h2>
 		</div>
@@ -67,20 +70,16 @@
 							</div>
 							<div class="col-sm-1">
 								<form method="post" asp-controller="Order" asp-action="Down">
-									<div class="form-group">
-										<input type="hidden" name="orderId" value="@order.OrderId" />
-										<button type="submit" class="btn btn-dark p-0 m-0">
-											<b>&nbsp;-&nbsp;&nbsp;</b>
-										</button>
-									</div>
+									<input type="hidden" name="orderId" value="@order.OrderId" />
+									<button type="submit" class="btn btn-dark p-0 m-0">
+										<b>&nbsp;-&nbsp;&nbsp;</b>
+									</button>
 								</form>
 								<form method="post" asp-controller="Order" asp-action="Up">
-									<div class="form-group">
-										<input type="hidden" name="orderId" value="@order.OrderId" />
-										<button type="submit" class="btn btn-warning p-0 m-0">
-											<b>&nbsp;+&nbsp;</b>
-										</button>
-									</div>
+									<input type="hidden" name="orderId" value="@order.OrderId" />
+									<button type="submit" class="btn btn-warning p-0 m-0">
+										<b>&nbsp;+&nbsp;</b>
+									</button>
 								</form>
 							</div>
 						</div>
@@ -119,7 +118,7 @@
 		<div class="card-header" id="headingTwo">
 			<h2 class="mb-0">
 				<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-					Átvehető
+					Átvehető (@OrderManager.GetCountForType(1, (string)Html.ViewContext.RouteData.Values["id"]))
 				</button>
 			</h2>
 		</div>
@@ -167,20 +166,16 @@
 								</div>
 								<div class="col-sm-1">
 									<form method="post" asp-controller="Order" asp-action="Down">
-										<div class="form-group">
-											<input type="hidden" name="orderId" value="@order.OrderId" />
-											<button type="submit" class="btn btn-dark p-0 m-0">
-												<b>&nbsp;-&nbsp;&nbsp;</b>
-											</button>
-										</div>
+										<input type="hidden" name="orderId" value="@order.OrderId" />
+										<button type="submit" class="btn btn-dark p-0 m-0">
+											<b>&nbsp;-&nbsp;&nbsp;</b>
+										</button>
 									</form>
 									<form method="post" asp-controller="Order" asp-action="Up">
-										<div class="form-group">
-											<input type="hidden" name="orderId" value="@order.OrderId" />
-											<button type="submit" class="btn btn-warning p-0 m-0">
-												<b>&nbsp;+&nbsp;</b>
-											</button>
-										</div>
+										<input type="hidden" name="orderId" value="@order.OrderId" />
+										<button type="submit" class="btn btn-warning p-0 m-0">
+											<b>&nbsp;+&nbsp;</b>
+										</button>
 									</form>
 								</div>
 							</div>
@@ -220,7 +215,7 @@
 		<div class="card-header" id="headingThree">
 			<h2 class="mb-0">
 				<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-					Kiadva
+					Kiadva (@OrderManager.GetCountForType(2, (string)Html.ViewContext.RouteData.Values["id"]))
 				</button>
 			</h2>
 		</div>
@@ -268,20 +263,16 @@
 								</div>
 								<div class="col-sm-1">
 									<form method="post" asp-controller="Order" asp-action="Down">
-										<div class="form-group">
-											<input type="hidden" name="orderId" value="@order.OrderId" />
-											<button type="submit" class="btn btn-dark p-0 m-0">
-												<b>&nbsp;-&nbsp;&nbsp;</b>
-											</button>
-										</div>
+										<input type="hidden" name="orderId" value="@order.OrderId" />
+										<button type="submit" class="btn btn-dark p-0 m-0">
+											<b>&nbsp;-&nbsp;&nbsp;</b>
+										</button>
 									</form>
 									<form method="post" asp-controller="Order" asp-action="Up">
-										<div class="form-group">
-											<input type="hidden" name="orderId" value="@order.OrderId" />
-											<button type="submit" class="btn btn-warning p-0 m-0">
-												<b>&nbsp;+&nbsp;</b>
-											</button>
-										</div>
+										<input type="hidden" name="orderId" value="@order.OrderId" />
+										<button type="submit" class="btn btn-warning p-0 m-0">
+											<b>&nbsp;+&nbsp;</b>
+										</button>
 									</form>
 								</div>
 							</div>
@@ -322,7 +313,7 @@
 		<div class="card-header" id="headingThree">
 			<h2 class="mb-0">
 				<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-					Teljesített
+					Teljesített (@OrderManager.GetCountForType(3, (string)Html.ViewContext.RouteData.Values["id"]))
 				</button>
 			</h2>
 		</div>
@@ -370,12 +361,10 @@
 								</div>
 								<div class="col-sm-1">
 									<form method="post" asp-controller="Order" asp-action="Down">
-										<div class="form-group">
-											<input type="hidden" name="orderId" value="@order.OrderId" />
-											<button type="submit" class="btn btn-dark p-0 m-0">
-												<b>&nbsp;-&nbsp;&nbsp;</b>
-											</button>
-										</div>
+										<input type="hidden" name="orderId" value="@order.OrderId" />
+										<button type="submit" class="btn btn-dark p-0 m-0">
+											<b>&nbsp;-&nbsp;&nbsp;</b>
+										</button>
 									</form>
 								</div>
 							</div>
@@ -416,7 +405,7 @@
 		<div class="card-header" id="headingThree">
 			<h2 class="mb-0">
 				<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
-					Visszautasított
+					Visszautasított (@OrderManager.GetCountForType(-1, (string)Html.ViewContext.RouteData.Values["id"]))
 				</button>
 			</h2>
 		</div>
@@ -464,12 +453,10 @@
 								</div>
 								<div class="col-sm-1">
 									<form method="post" asp-controller="Order" asp-action="Up">
-										<div class="form-group">
-											<input type="hidden" name="orderId" value="@order.OrderId" />
-											<button type="submit" class="btn btn-warning p-0 m-0">
-												<b>&nbsp;+&nbsp;</b>
-											</button>
-										</div>
+										<input type="hidden" name="orderId" value="@order.OrderId" />
+										<button type="submit" class="btn btn-warning p-0 m-0">
+											<b>&nbsp;+&nbsp;</b>
+										</button>
 									</form>
 								</div>
 							</div>

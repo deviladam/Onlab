@@ -125,5 +125,11 @@ namespace Szertar.Dal.Managers
 			_dbContext.SaveChanges();
 			return order.ApplicationUserId;
 		}
+
+		public int GetCountForType(int type, string userId)
+		{
+			var count = _dbContext.Orders.Where(c => c.ApplicationUserId == userId).Where(o => o.Status == type).Count();
+			return count;
+		}
 	}
 }

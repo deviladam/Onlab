@@ -10,6 +10,8 @@ using Szertar.Dal.Dto;
 using Szertar.Dal.Managers;
 using Szertar.Models;
 
+
+
 namespace Szertar.Controllers
 {
 	public class HomeController : Controller
@@ -23,13 +25,16 @@ namespace Szertar.Controllers
 			_authorizationService = authorizationService;
 		}
 		
-		public IActionResult Index(string name, string have, string type, string priceDo, string price)
+		public IActionResult Index(string name, string have, string type, string priceDo, string price, int? page)
 		{
-			string[] filters = { name, have, type, priceDo, price };
-						
-			var items = _itemManager.GetAllItems(filters);
+			var pageIndex = page ?? 1;
 
-			return View( items );
+			string[] filters = { name, have, type, priceDo, price };
+
+			var items = _itemManager.GetAllItems(filters, pageIndex);
+
+			ViewBag.OnePageOfProducts = items;
+			return View(items);
 		}
 
 		[Authorize(Roles = "Administrator")]

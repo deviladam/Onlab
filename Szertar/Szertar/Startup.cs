@@ -92,6 +92,9 @@ namespace Szertar
 				routes.MapRoute(
 					name: "default",
 					template: "{controller=Home}/{action=Index}/{id?}");
+				routes.MapRoute(
+					name: "defaultPage",
+					template: "{controller=Home}/{action=Index}/{page?}");
 			});
 			
 		}

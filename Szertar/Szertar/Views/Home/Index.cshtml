@@ -1,5 +1,7 @@
-﻿@model List<Szertar.Dal.Dto.ItemHeader>
+﻿@model X.PagedList.IPagedList<Szertar.Dal.Dto.ItemHeader>
 @using Microsoft.AspNetCore.Identity
+@using X.PagedList.Mvc.Core; 
+@using X.PagedList;
 @inject SignInManager<Szertar.Dal.Entities.ApplicationUser> SignInManager
 
 @{
@@ -26,7 +28,7 @@
 	<div class="row justify-content-center">
 		<div class="collapse col-sm-3 p-0" id="collapseFilter">
 			<div class="card card-body bg-light m-1">
-				<div class="row"><b>Szűrés</b><br/></div>
+				<div class="row"><b>Szűrés</b><br /></div>
 				<form asp-controller="Home" asp-action="Index" method="get">
 					<div class="form-group">
 						<label class="row" for="name">Név</label>
@@ -125,28 +127,40 @@
 					</div>
 				</div>
 			}
+			<br />
+			@Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+			
+			@{if (Model.PageNumber > 1) {
+							var index = Model.PageNumber - 1;
+							<a asp-area="" asp-controller="Home" asp-action="Index" asp-route-page="@index"><b>Elöző</b></a>
+						} }&nbsp;
+				@{if (Model.PageNumber < Model.Count) {
+						var index = Model.PageNumber + 1;
+							<a asp-area="" asp-controller="Home" asp-action="Index" asp-route-page="@index"><b>Következő</b></a>
+						} }
+
+				</div>
 		</div>
 	</div>
-</div>
-@section scripts {
+	@section scripts {
 
-	<script>
-		let slider = $("#slider").slider({
-		});
-		$("#slider").slider("disable");
-		slider.on("change", function (obj) {
-			$("#min").html(obj.value.newValue[0]);
-			$("#max").html(obj.value.newValue[1]);
-		});
-		$("#priceDo").change(function () {
-			if (this.checked) {
-				$("#slider").slider("enable");
-			}
-			else {
-				$("#slider").slider("disable");
-			}
-		});
-		
-	</script>
-}
+		<script>
+			let slider = $("#slider").slider({
+			});
+			$("#slider").slider("disable");
+			slider.on("change", function (obj) {
+				$("#min").html(obj.value.newValue[0]);
+				$("#max").html(obj.value.newValue[1]);
+			});
+			$("#priceDo").change(function () {
+				if (this.checked) {
+					$("#slider").slider("enable");
+				}
+				else {
+					$("#slider").slider("disable");
+				}
+			});
+
+		</script>
+	}
 
