@@ -25,12 +25,12 @@ namespace Szertar.Controllers
 			_authorizationService = authorizationService;
 		}
 		
-		public IActionResult Index(string name, string have, string type, string priceDo, string price, int? page)
+		public IActionResult Index(string name, string have, string type, string priceDo, string price, int? p)
 		{
-			var pageIndex = page ?? 1;
+			var pageIndex = p ?? 1;
 
 			string[] filters = { name, have, type, priceDo, price };
-
+			ViewBag.filters = filters;
 			var items = _itemManager.GetAllItems(filters, pageIndex);
 
 			ViewBag.OnePageOfProducts = items;

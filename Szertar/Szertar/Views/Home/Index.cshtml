@@ -39,13 +39,18 @@
 						<input class="row" type="text" id="type" name="type">
 					</div>
 					<div class="row form-group">
-						<label for="have">Van készleten</label>
-						<input type="checkbox" id="have" name="have">
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="checkbox" id="have" name="have">
+							<label class="form-check-label" for="have"> Van készleten</label>
+						</div>
 					</div>
 
 					<div class="row form-group">
-						<label for="priceDo">Ár alapján </label>
-						<input type="checkbox" id="priceDo" name="priceDo">
+
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="checkbox" id="priceDo" name="priceDo">
+							<label class="form-check-label" for="priceDo"> Ár alapján</label>
+						</div>
 					</div>
 
 					<div class="form-group">
@@ -128,20 +133,22 @@
 				</div>
 			}
 			<br />
-			@Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
-			
-			@{if (Model.PageNumber > 1) {
-							var index = Model.PageNumber - 1;
-							<a asp-area="" asp-controller="Home" asp-action="Index" asp-route-page="@index"><b>Elöző</b></a>
-						} }&nbsp;
-				@{if (Model.PageNumber < Model.Count) {
-						var index = Model.PageNumber + 1;
-							<a asp-area="" asp-controller="Home" asp-action="Index" asp-route-page="@index"><b>Következő</b></a>
-						} }
-
+			<div class="row justify-content-center">
+				<div class="col-4">
 				</div>
-		</div>
-	</div>
+					<div class="col-4">
+						@Html.PagedListPager(Model, page => Url.Action("Index", "Home", new { p = page,
+					   name = ViewBag.filters[0] == null ? (object)null : ViewBag.filters[0],
+					   have = ViewBag.filters[1] == null? (object)null: ViewBag.filters[1],
+					   type = ViewBag.filters[2] == null ? (object)null : ViewBag.filters[2],
+					   priceDo= ViewBag.filters[3] == null ? (object)null : ViewBag.filters[3],
+					   price = ViewBag.filters[4] == null ? (object)null : ViewBag.filters[4]}))
+
+
+					</div>
+					<div class="col-4">
+					</div>
+				
 	@section scripts {
 
 		<script>
