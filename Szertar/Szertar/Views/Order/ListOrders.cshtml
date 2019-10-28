@@ -19,9 +19,9 @@
 
 <div class="accordion" id="accordionID">
 	<div class="card">
-		<div class="card-header" id="headingOne">
+		<div class="card-header" id="headingOne" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
 			<h2 class="mb-0">
-				<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+				<button class="btn btn-link" type="button" >
 					Függőben (@OrderManager.GetCountForType(0, User.Claims.FirstOrDefault((c => c.Type == ClaimTypes.NameIdentifier)).Value))
 				</button>
 			</h2>
@@ -109,9 +109,9 @@
 		</div>
 	</div>
 	<div class="card">
-		<div class="card-header" id="headingTwo">
+		<div class="card-header" id="headingTwo"  data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
 			<h2 class="mb-0">
-				<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+				<button class="btn btn-link collapsed" type="button">
 					Átvehető (@OrderManager.GetCountForType(1, User.Claims.FirstOrDefault((c => c.Type == ClaimTypes.NameIdentifier)).Value))
 				</button>
 			</h2>
@@ -191,9 +191,9 @@
 		</div>
 	</div>
 	<div class="card">
-		<div class="card-header" id="headingThree">
+		<div class="card-header" id="headingThree" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
 			<h2 class="mb-0">
-				<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+				<button class="btn btn-link collapsed" type="button" >
 					Kiadva (@OrderManager.GetCountForType(2, User.Claims.FirstOrDefault((c => c.Type == ClaimTypes.NameIdentifier)).Value))
 				</button>
 			</h2>
@@ -274,9 +274,9 @@
 		</div>
 	</div>
 	<div class="card">
-		<div class="card-header" id="headingThree">
+		<div class="card-header" id="headingThree" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
 			<h2 class="mb-0">
-				<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+				<button class="btn btn-link collapsed" type="button" >
 					Teljesített (@OrderManager.GetCountForType(3, User.Claims.FirstOrDefault((c => c.Type == ClaimTypes.NameIdentifier)).Value))
 				</button>
 			</h2>
@@ -357,9 +357,9 @@
 		</div>
 	</div>
 	<div class="card">
-		<div class="card-header" id="headingThree">
+		<div class="card-header" id="headingThree"  data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
 			<h2 class="mb-0">
-				<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+				<button class="btn btn-link collapsed" type="button">
 					Visszautasított (@OrderManager.GetCountForType(-1, User.Claims.FirstOrDefault((c => c.Type == ClaimTypes.NameIdentifier)).Value))
 				</button>
 			</h2>

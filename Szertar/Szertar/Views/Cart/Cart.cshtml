@@ -7,36 +7,20 @@
 @{
 	ViewData["Title"] = "Kosár";
 }
-@if (ViewData["CartItemsNumber"] != null && (int)ViewData["CartItemsNumber"] != 0)
-{
-<div id="mySidebar" class="h-50">
-	<div class="row h-100 text">
-		<div class="col-sm-1">
-			<div class="row align-items-center h-100">
-				<div class="col-sm-12">
-					<h3><b><</b></h3>
-				</div>
-			</div>
-		</div>
-		<div class="col-sm-10">
-			<div class="row align-items-end justify-content-center h-100">
-				<div class="row justify-content-center">
-					<div class="clo-sm-12">Egy napra a rendelés @ViewData["orderPrice"]&nbsp;Ft</div>
-					<div class="clo-sm-12">
-						<a asp-controller="Order" asp-action="OrderAdd">
-							<div class="btn btn-dark">Lefoglal</div>
-						</a>
-					</div>
-				</div>
 
-
-			</div>
-		</div>
-
-	</div>
-</div>
-}
 <h1>Kosár</h1>
+@if (ViewData["CartItemsNumber"] == null || (int)ViewData["CartItemsNumber"] != 0) { 
+	<div class="row">
+		<div class="col-6">
+			<h5>Egy napra a rendelés<strong> @ViewData["orderPrice"]</strong>&nbsp;Ft</h5>
+		</div>
+		<div class="col-6 text-right">
+			<a asp-controller="Order" asp-action="OrderAdd">
+				<div class="btn btn-success"->Időpont kiválaszt</div>
+			</a>
+		</div>
+	</div>
+}
 
 <div class="container">
 	@if (ViewData["CartItemsNumber"] != null && (int)ViewData["CartItemsNumber"] == 0)

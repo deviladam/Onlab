@@ -134,21 +134,18 @@
 			}
 			<br />
 			<div class="row justify-content-center">
-				<div class="col-4">
+
+				<div class="col-12 text-center" id="myPages">
+					@Html.PagedListPager(Model, page => Url.Action("Index", "Home", new { p = page,
+				   name = ViewBag.filters[0] == null ? (object)null : ViewBag.filters[0],
+				   have = ViewBag.filters[1] == null? (object)null: ViewBag.filters[1],
+				   type = ViewBag.filters[2] == null ? (object)null : ViewBag.filters[2],
+				   priceDo= ViewBag.filters[3] == null ? (object)null : ViewBag.filters[3],
+				   price = ViewBag.filters[4] == null ? (object)null : ViewBag.filters[4]}))
+
+
 				</div>
-					<div class="col-4">
-						@Html.PagedListPager(Model, page => Url.Action("Index", "Home", new { p = page,
-					   name = ViewBag.filters[0] == null ? (object)null : ViewBag.filters[0],
-					   have = ViewBag.filters[1] == null? (object)null: ViewBag.filters[1],
-					   type = ViewBag.filters[2] == null ? (object)null : ViewBag.filters[2],
-					   priceDo= ViewBag.filters[3] == null ? (object)null : ViewBag.filters[3],
-					   price = ViewBag.filters[4] == null ? (object)null : ViewBag.filters[4]}))
-
-
-					</div>
-					<div class="col-4">
-					</div>
-				
+			</div>
 	@section scripts {
 
 		<script>

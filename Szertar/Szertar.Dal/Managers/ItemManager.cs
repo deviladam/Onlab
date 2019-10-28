@@ -19,9 +19,18 @@ namespace Szertar.Dal.Managers
 			_dbContext = dbContext;
 		}
 
-		public void AddItem(ItemDetails item)
+		public void AddItem(ItemDetails i)
 		{
-			_dbContext.Add(item);
+			var temp = new Item {
+				Name = i.Name,
+				Price = i.Price,
+				Stock = i.Stock,
+				Image = i.Image,
+				AvailableCount = i.Stock,
+				Description = i.Description,
+				Activity = i.Activity
+			};
+			_dbContext.Add(temp);
 			_dbContext.SaveChanges();
 		}
 

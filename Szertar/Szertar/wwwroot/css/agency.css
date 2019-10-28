@@ -701,20 +701,9 @@ ul.social-buttons li a:active, ul.social-buttons li a:focus, ul.social-buttons l
 	padding: 5px;
 }
 
-#mySidebar {
-	position: absolute;
-	right: -265px;
-	transition: 0.3s;
-	padding: 15px;
-	width: 300px;
-	text-decoration: none;
-	font-size: 20px;
-	color: white;
-	border-radius: 5px 0 0 5px;
-	background-color: #4CAF50;
-	z-index:11;
+#myPages a, #myPages span {
+	display: inline-block;
+	padding: 5px;
+	min-width: 1em;
+	min-height: 1em;
 }
-
-	#mySidebar:hover {
-		right: 0;
-	}
